@@ -1,5 +1,5 @@
 <template>
-  <div class="font-semibold flex flex-auto flex-col h-screen mx-auto">
+  <div class="font-semibold flex flex-auto flex-col h-screen container mx-auto">
     <AppHeader class="sticky top-0" :back="back" :title="title" @back="handleBackClick">
       <template #extension>
         <AppButton v-if="create" @click="handleAddClick">
