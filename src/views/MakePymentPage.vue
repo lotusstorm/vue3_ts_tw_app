@@ -2,7 +2,7 @@
   <div class="flex flex-col h-full">
     <AppSelect
       label="Select contact"
-      placeholder="Select contact"
+      placeholder="select contact"
       class="mb-2"
       :first-name="store.firstName"
       :last-name="store.lastName"

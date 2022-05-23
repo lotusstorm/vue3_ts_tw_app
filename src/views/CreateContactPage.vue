@@ -34,13 +34,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, inject } from "vue";
+import { ref, computed, inject, watch, onBeforeMount } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { useRouter } from "vue-router";
 
 import AppTextInput from "@/components/AppTextInput.vue";
 import AppButton from "@/components/AppButton.vue";
+
+const LOCAL_STORAGE_KEY = "store";
+
+interface localStorageData {
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+}
 
 const { store, mutation } = inject("store") || {};
 const router = useRouter();
@@ -65,6 +73,38 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, { firstName, lastName, userEmail });
 
+onBeforeMount(() => {
+  const data: localStorageData = getDataFromLocalStoreg(LOCAL_STORAGE_KEY);
+
+  if (data) {
+    firstName.value = data.firstName;
+    lastName.value = data.lastName;
+    userEmail.value = data.userEmail;
+  }
+});
+
+watch([firstName, lastName, userEmail], ([firstName, lastName, userEmail]) => {
+  setDataToLocalStoreg(LOCAL_STORAGE_KEY, {
+    firstName,
+    lastName,
+    userEmail,
+  });
+});
+
+const setDataToLocalStoreg = (key: string, data: object) => {
+  localStorage.setItem(key, JSON.stringify(data));
+};
+
+const getDataFromLocalStoreg = (key: string) => {
+  const data = localStorage.getItem(key);
+
+  if (data) {
+    return JSON.parse(data);
+  }
+
+  return {};
+};
+
 const handleFormSubmit = async () => {
   try {
     isSubmiting.value = true;
@@ -76,11 +116,17 @@ const handleFormSubmit = async () => {
         ...store.contactsList,
         {
           id: Math.random(),
-          first_name: firstName,
-          last_name: lastName,
-          email: userEmail,
+          first_name: firstName.value,
+          last_name: lastName.value,
+          email: userEmail.value,
         },
       ],
+    });
+
+    setDataToLocalStoreg(LOCAL_STORAGE_KEY, {
+      firstName: "",
+      lastName: "",
+      userEmail: "",
     });
 
     router.push({ name: "Contacts" });

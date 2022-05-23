@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw, RouteLocationNormalized } from "vue-router";
+import { ROUTS_NAMES, getAnimate } from "@/utils/helters";
 
 import WithHeaderLayout from "@/layouts/WithHeaderLayout.vue";
 
@@ -21,7 +22,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        name: "Main",
+        name: ROUTS_NAMES.MAIN,
         component: MakePymentPage,
         meta: {
           title: "Make a payment",
@@ -32,7 +33,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: "contacts",
-        name: "Contacts",
+        name: ROUTS_NAMES.CONTACTS,
         component: ContactsPage,
         meta: {
           title: "Select contact",
@@ -43,7 +44,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: "createContact",
-        name: "CreateContact",
+        name: ROUTS_NAMES.CREATE_CONTACTS,
         component: CreateContactPage,
         meta: {
           title: "New contact",
@@ -63,31 +64,13 @@ const router = createRouter({
 });
 
 router.afterEach((to, from) => {
-  if (to.name === "Main" && from.name === "Contacts") {
-    to.meta.transition = "slide-right";
-    from.meta.transition = "slide-right";
-  }
+  if (to.name !== undefined && to.name !== null && from.name !== undefined && from.name !== null) {
+    const toName: string = to.name.toString();
+    const fromName: string = from.name.toString();
 
-  if (to.name === "Contacts") {
-    if (from.name === "Main") {
-      to.meta.transition = "slide-left";
-      from.meta.transition = "slide-left";
-    }
-
-    if (from.name === "CreateContact") {
-      to.meta.transition = "slide-right";
-      from.meta.transition = "slide-right";
-    }
-  }
-
-  if (to.name === "CreateContact" && from.name === "Contacts") {
-    to.meta.transition = "slide-left";
-    from.meta.transition = "slide-left";
-  }
-
-  if (to.name === "Main" && from.name === "Contacts") {
-    to.meta.transition = "slide-right";
-    from.meta.transition = "slide-right";
+    const { fromSlide, toSlide } = getAnimate(toName, fromName);
+    to.meta.transition = toSlide;
+    from.meta.transition = fromSlide;
   }
 });
 
