@@ -3,7 +3,7 @@
     :type="type"
     class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-75"
     :disabled="disabled"
-    @click="emit('click')"
+    @click.stop="emit('click')"
   >
     <RefreshIcon v-if="loading" class="animate-spin w-5" />
     <slot v-else>Save</slot>

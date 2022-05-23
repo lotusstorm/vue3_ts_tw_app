@@ -1,5 +1,5 @@
 <template>
-  <div class="font-semibold flex flex-col h-screen container mx-auto">
+  <div class="font-semibold flex flex-auto flex-col h-screen container mx-auto">
     <!-- <router-view v-slot="{ Component, route }">
       <transition :name="route.meta.transition || 'fade'">
         <component :is="Component" />

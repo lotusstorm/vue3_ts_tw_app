@@ -31,12 +31,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
+import { useRouter } from "vue-router";
 
 import AppTextInput from "@/components/AppTextInput.vue";
 import AppButton from "@/components/AppButton.vue";
+
+const { store, mutation } = inject("store");
+const router = useRouter();
 
 const firstName = ref("");
 const lastName = ref("");
@@ -62,9 +66,21 @@ const handleFormSubmit = async () => {
   try {
     isSubmiting.value = true;
     const isFormCorrect = await v$.value.$validate();
-    // you can show some extra alert to the user or just leave the each field to show it's `$errors`.
-    console.log(isFormCorrect, "isFormCorrect");
     if (!isFormCorrect) return;
+
+    mutation({
+      contactsList: [
+        ...store.contactsList,
+        {
+          id: Math.random(),
+          first_name: firstName,
+          last_name: lastName,
+          email: userEmail,
+        },
+      ],
+    });
+
+    router.push({ name: "Contacts" });
   } catch (error) {
     console.error(error);
   } finally {
