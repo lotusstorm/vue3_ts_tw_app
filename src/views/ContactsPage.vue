@@ -1,5 +1,5 @@
 <template>
-  <ul class="h-[100%]">
+  <ul class="h-full w-full">
     <li
       v-for="contact of store.contactsList"
       :key="contact.id"

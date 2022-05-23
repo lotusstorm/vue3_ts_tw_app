@@ -1,11 +1,12 @@
 <template>
-  <form class="flex flex-col h-full" @submit.prevent="handleFormSubmit">
+  <form class="flex flex-col w-full h-full" @submit.prevent="handleFormSubmit">
     <AppTextInput
       v-model="v$.firstName.$model"
       :error-masseges="v$.firstName.$errors"
       label="First Name"
       placeholder="First Name"
       class="mb-2"
+      @blur="v$.firstName.$touch()"
     />
     <AppTextInput
       v-model="v$.lastName.$model"
@@ -13,6 +14,7 @@
       label="Last Name"
       placeholder="Last Name"
       class="mb-2"
+      @blur="v$.lastName.$touch()"
     />
     <AppTextInput
       v-model="v$.userEmail.$model"
@@ -20,6 +22,7 @@
       label="Email"
       placeholder="Email"
       class="mb-2"
+      @blur="v$.userEmail.$touch()"
     />
     <AppButton
       :disabled="v$.$invalid"

@@ -1,37 +1,34 @@
 <template>
-  <div class="flex flex-col flex-auto">
-    <header class="h-[62px] text-md text-slate-900 px-4 py-2 flex items-center justify-center">
-      <h1>Make a pyament</h1>
-    </header>
-    <main class="p-4 flex-auto flex flex-col">
-      <AppSelect
-        label="Select contact"
-        placeholder="Select contact"
-        class="mb-2"
-        :first-name="store.firstName"
-        :last-name="store.lastName"
-        :email="store.email"
-        :error-masseges="v$.selected.$errors"
-        @click="handleSelectClick"
-        @clear="handleClearClick"
-      />
+  <div class="flex flex-col h-full">
+    <AppSelect
+      label="Select contact"
+      placeholder="Select contact"
+      class="mb-2"
+      :first-name="store.firstName"
+      :last-name="store.lastName"
+      :email="store.email"
+      :error-masseges="v$.selected.$errors"
+      @click="handleSelectClick"
+      @clear="handleClearClick"
+    />
 
-      <AppTextInput
-        v-model="v$.amount.$model"
-        :error-masseges="v$.amount.$errors"
-        label="Enter amount"
-        placeholder="amount"
-        class="mb-2"
-        @blur="v$.amount.$touch()"
-      />
+    <AppTextInput
+      v-model="v$.amount.$model"
+      :error-masseges="v$.amount.$errors"
+      label="Enter amount"
+      placeholder="amount"
+      class="mb-2"
+      @blur="v$.amount.$touch()"
+    />
 
-      <AppButton
-        :disabled="v$.$invalid"
-        :loading="isSubmiting"
-        class="w-full mt-auto"
-        @click="handleFormSubmit"
-      />
-    </main>
+    <AppButton
+      :disabled="v$.$invalid"
+      :loading="isSubmiting"
+      class="w-full mt-auto"
+      @click="handleFormSubmit"
+    >
+      Pay
+    </AppButton>
   </div>
 </template>
 

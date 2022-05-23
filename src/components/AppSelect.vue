@@ -33,9 +33,9 @@
 
 <script lang="ts" setup>
 import { withDefaults, defineProps, defineEmits, computed } from "vue";
-import { ErrorObject } from "@vuelidate/core";
-
+import type { ErrorObject } from "@vuelidate/core";
 import { XIcon } from "@heroicons/vue/solid";
+
 import AppButton from "@/components/AppButton.vue";
 
 interface Props {
