@@ -10,6 +10,9 @@
     "lint:style": "stylelint src/**/*.{css,scss,vue}"
   },
   "dependencies": {
+    "@heroicons/vue": "^1.0.6",
+    "@vuelidate/core": "^2.0.0-alpha.41",
+    "@vuelidate/validators": "^2.0.0-alpha.29",
     "vue": "^3.2.25",
     "vue-router": "^4.0.15"
   },

@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
+import type { RouteRecordRaw, RouteLocationNormalized } from "vue-router";
 
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import ConfigLayout from "@/layouts/ConfigLayout.vue";
@@ -18,20 +18,40 @@ const routes: RouteRecordRaw[] = [
         path: "",
         name: "Main",
         component: MakePymentPage,
+        meta: {
+          transition: "slide-left",
+        },
       },
       {
         path: "config",
         component: ConfigLayout,
+        props: (route: RouteLocationNormalized) => ({
+          title: route?.meta.title ?? "",
+          needCreate: route?.meta.needCreate ?? false,
+        }),
+        meta: {
+          transition: "slide-right",
+        },
         children: [
           {
             path: "contacts",
             name: "Contacts",
             component: ContactsPage,
+            meta: {
+              title: "Select contact",
+              needCreate: true,
+              transition: "slide-right",
+            },
           },
           {
-            path: "contacts/:id",
-            name: "Contact",
+            path: "createContact",
+            name: "CreateContact",
             component: CreateContactPage,
+            meta: {
+              title: "New contact",
+              needCreate: false,
+              transition: "slide-left",
+            },
           },
         ],
       },
@@ -41,6 +61,6 @@ const routes: RouteRecordRaw[] = [
 ];
 
 export default createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
