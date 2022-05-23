@@ -58,6 +58,7 @@ const handleBackClick = () => {
 :root {
   --transform-x: 30px;
 }
+
 /* slide-left */
 .slide-left-enter-active {
   transition: all 0.2s ease-out;
@@ -71,6 +72,7 @@ const handleBackClick = () => {
   transform: translateX(var(--transform-x));
   opacity: 0;
 }
+
 .slide-left-leave-to {
   transform: translateX(calc(var(--transform-x) * -1));
   opacity: 0;
