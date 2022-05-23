@@ -1,11 +1,11 @@
 <template>
   <div class="font-semibold flex flex-auto flex-col h-screen container mx-auto">
-    <!-- <router-view v-slot="{ Component, route }">
-      <transition :name="route.meta.transition || 'fade'">
+    <router-view v-slot="{ Component, route }">
+      <transition mode="out-in" :name="route.meta.transition">
         <component :is="Component" />
       </transition>
-    </router-view> -->
-    <router-view />
+    </router-view>
+    <!-- <router-view /> -->
   </div>
 </template>
 

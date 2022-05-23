@@ -39,7 +39,7 @@ import { useRouter } from "vue-router";
 import AppTextInput from "@/components/AppTextInput.vue";
 import AppButton from "@/components/AppButton.vue";
 
-const { store, mutation } = inject("store");
+const { store, mutation } = inject("store") || {};
 const router = useRouter();
 
 const firstName = ref("");

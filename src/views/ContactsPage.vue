@@ -16,10 +16,10 @@
 import { inject } from "vue";
 import { useRouter } from "vue-router";
 
-const { store, mutation } = inject("store");
+const { store, mutation } = inject("store") || {};
 const router = useRouter();
 
-const handleContactClick = ({ first_name, last_name, email }) => {
+const handleContactClick = ({ first_name = "", last_name = "", email = "" } = {}) => {
   mutation({ firstName: first_name, lastName: last_name, email: email });
   router.push({ name: "Main" });
 };

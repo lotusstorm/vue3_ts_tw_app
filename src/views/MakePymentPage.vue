@@ -39,13 +39,13 @@
 import { inject, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
-import { required, numeric, helpers } from "@vuelidate/validators";
+import { required, numeric } from "@vuelidate/validators";
 
 import AppSelect from "@/components/AppSelect.vue";
 import AppButton from "@/components/AppButton.vue";
 import AppTextInput from "@/components/AppTextInput.vue";
 
-const { store, mutation } = inject("store");
+const { store, mutation } = inject("store") || {};
 const router = useRouter();
 
 const amount = ref("");

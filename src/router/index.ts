@@ -18,9 +18,6 @@ const routes: RouteRecordRaw[] = [
         path: "",
         name: "Main",
         component: MakePymentPage,
-        meta: {
-          transition: "slide-left",
-        },
       },
       {
         path: "config",
@@ -29,9 +26,6 @@ const routes: RouteRecordRaw[] = [
           title: route?.meta.title ?? "",
           needCreate: route?.meta.needCreate ?? false,
         }),
-        meta: {
-          transition: "slide-right",
-        },
         children: [
           {
             path: "contacts",
@@ -40,7 +34,6 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: "Select contact",
               needCreate: true,
-              transition: "slide-right",
             },
           },
           {
@@ -50,7 +43,6 @@ const routes: RouteRecordRaw[] = [
             meta: {
               title: "New contact",
               needCreate: false,
-              transition: "slide-left",
             },
           },
         ],
@@ -60,7 +52,17 @@ const routes: RouteRecordRaw[] = [
   { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.afterEach((to, from) => {
+  const toDepth = to.path.split("/").length;
+  const fromDepth = from.path.split("/").length;
+  console.log();
+
+  to.meta.transition = toDepth < fromDepth ? "slide-right" : "slide-left";
+});
+
+export default router;
