@@ -18,5 +18,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: lint:script
-      - run: lint:style
+      - run: npm run lint:script
+      - run: npm run lint:style
