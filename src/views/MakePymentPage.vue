@@ -4,13 +4,25 @@
       label="Select contact"
       placeholder="select contact"
       class="mb-2"
-      :first-name="store.firstName"
-      :last-name="store.lastName"
-      :email="store.email"
+      :first-name="firstName"
+      :last-name="lastName"
+      :email="email"
       :error-masseges="v$.selected.$errors"
       @click="handleSelectClick"
       @clear="handleClearClick"
     />
+
+    <!-- <AppSelect
+      label="Select contact"
+      placeholder="select contact"
+      class="mb-2"
+      :first-name="firstName"
+      :last-name="lastName"
+      :email="email"
+      :error-masseges="v$.selected.$errors"
+      @click="handleSelectClick"
+      @clear="handleClearClick"
+    /> -->
 
     <AppTextInput
       v-model="v$.amount.$model"
@@ -33,21 +45,25 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, computed } from "vue";
+import { ref, computed, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
 import { required, numeric } from "@vuelidate/validators";
+import { useReactiveContext } from "@/composables/useContext";
 
 import AppSelect from "@/components/AppSelect.vue";
 import AppButton from "@/components/AppButton.vue";
 import AppTextInput from "@/components/AppTextInput.vue";
 
-const { store, mutation } = inject("store") || {};
+const [store, setStore] = useReactiveContext();
+
+const { firstName, lastName, email } = toRefs(store);
+
 const router = useRouter();
 
 const amount = ref("");
 const isSubmiting = ref(false);
-const selected = computed(() => store.firstName && store.lastName && store.email);
+const selected = computed(() => firstName && lastName && email);
 
 const rules = computed(() => ({
   selected: {
@@ -66,7 +82,10 @@ const handleSelectClick = () => {
 };
 
 const handleClearClick = () => {
-  mutation({ firstName: "", lastName: "", email: "" });
+  setStore({ key: "firstName", value: "" });
+  setStore({ key: "lastName", value: "" });
+  setStore({ key: "email", value: "" });
+
   v$.value.selected.$touch();
 };
 

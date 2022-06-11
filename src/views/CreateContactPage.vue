@@ -34,23 +34,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, inject, watch, onBeforeMount } from "vue";
+import { ref, computed, watch, onBeforeMount } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { useRouter } from "vue-router";
+import { useReactiveContext } from "@/composables/useContext";
+import { useLocalStoreg } from "@/composables/useLocalStoreg";
 
 import AppTextInput from "@/components/AppTextInput.vue";
 import AppButton from "@/components/AppButton.vue";
 
 const LOCAL_STORAGE_KEY = "store";
-
 interface localStorageData {
   firstName: string;
   lastName: string;
   userEmail: string;
 }
 
-const { store, mutation } = inject("store") || {};
+const { setDataToLocalStoreg, getDataFromLocalStoreg } = useLocalStoreg(LOCAL_STORAGE_KEY);
+
+const [store, setStore] = useReactiveContext();
+
 const router = useRouter();
 
 const firstName = ref("");
@@ -74,36 +78,22 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, { firstName, lastName, userEmail });
 
 onBeforeMount(() => {
-  const data: localStorageData = getDataFromLocalStoreg(LOCAL_STORAGE_KEY);
+  const data: localStorageData = getDataFromLocalStoreg();
 
   if (data) {
-    firstName.value = data.firstName;
-    lastName.value = data.lastName;
-    userEmail.value = data.userEmail;
+    firstName.value = data.firstName || "";
+    lastName.value = data.lastName || "";
+    userEmail.value = data.userEmail || "";
   }
 });
 
 watch([firstName, lastName, userEmail], ([firstName, lastName, userEmail]) => {
-  setDataToLocalStoreg(LOCAL_STORAGE_KEY, {
+  setDataToLocalStoreg({
     firstName,
     lastName,
     userEmail,
   });
 });
-
-const setDataToLocalStoreg = (key: string, data: object) => {
-  localStorage.setItem(key, JSON.stringify(data));
-};
-
-const getDataFromLocalStoreg = (key: string) => {
-  const data = localStorage.getItem(key);
-
-  if (data) {
-    return JSON.parse(data);
-  }
-
-  return {};
-};
 
 const handleFormSubmit = async () => {
   try {
@@ -111,8 +101,9 @@ const handleFormSubmit = async () => {
     const isFormCorrect = await v$.value.$validate();
     if (!isFormCorrect) return;
 
-    mutation({
-      contactsList: [
+    setStore({
+      key: "contactsList",
+      value: [
         ...store.contactsList,
         {
           id: Math.random(),
@@ -123,7 +114,7 @@ const handleFormSubmit = async () => {
       ],
     });
 
-    setDataToLocalStoreg(LOCAL_STORAGE_KEY, {
+    setDataToLocalStoreg({
       firstName: "",
       lastName: "",
       userEmail: "",

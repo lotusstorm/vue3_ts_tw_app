@@ -1,6 +1,6 @@
 <template>
   <header
-    class="text-md min-h-[62px] backdrop-blur-sm px-4 py-2 flex flex-row items-center justify-between"
+    class="text-md min-h-[62px] z-10 backdrop-blur-sm px-4 py-2 flex flex-row items-center justify-between"
   >
     <div>
       <slot name="prepend" />

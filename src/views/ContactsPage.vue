@@ -13,14 +13,17 @@
 </template>
 
 <script lang="ts" setup>
-import { inject } from "vue";
 import { useRouter } from "vue-router";
+import { useReactiveContext } from "@/composables/useContext";
 
-const { store, mutation } = inject("store") || {};
+const [store, setStore] = useReactiveContext();
 const router = useRouter();
 
 const handleContactClick = ({ first_name = "", last_name = "", email = "" } = {}) => {
-  mutation({ firstName: first_name, lastName: last_name, email: email });
+  setStore({ key: "firstName", value: first_name });
+  setStore({ key: "lastName", value: last_name });
+  setStore({ key: "email", value: email });
+
   router.push({ name: "Main" });
 };
 </script>
