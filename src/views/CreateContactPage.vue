@@ -40,20 +40,16 @@ import { required, email } from "@vuelidate/validators";
 import { useRouter } from "vue-router";
 import { useReactiveContext } from "@/composables/useContext";
 import { useLocalStoreg } from "@/composables/useLocalStoreg";
+import type { MainData, localStorageData } from "@/types/MainDataTypes.interface";
 
 import AppTextInput from "@/components/AppTextInput.vue";
 import AppButton from "@/components/AppButton.vue";
 
 const LOCAL_STORAGE_KEY = "store";
-interface localStorageData {
-  firstName: string;
-  lastName: string;
-  userEmail: string;
-}
 
 const { setDataToLocalStoreg, getDataFromLocalStoreg } = useLocalStoreg(LOCAL_STORAGE_KEY);
 
-const [store, setStore] = useReactiveContext();
+const [store, setStore] = useReactiveContext<MainData>();
 
 const router = useRouter();
 

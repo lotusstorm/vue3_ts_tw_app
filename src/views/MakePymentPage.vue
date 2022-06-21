@@ -54,8 +54,9 @@ import { useReactiveContext } from "@/composables/useContext";
 import AppSelect from "@/components/AppSelect.vue";
 import AppButton from "@/components/AppButton.vue";
 import AppTextInput from "@/components/AppTextInput.vue";
+import type { MainData } from "@/types/MainDataTypes.interface";
 
-const [store, setStore] = useReactiveContext();
+const [store, setStore] = useReactiveContext<MainData>();
 
 const { firstName, lastName, email } = toRefs(store);
 

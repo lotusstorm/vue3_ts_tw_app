@@ -1,33 +1,27 @@
 import { provide, inject, reactive } from "vue";
-import type { ComputedRef } from "vue";
+import type { UnwrapNestedRefs, InjectionKey } from "vue";
 
 /** Generate a unique symbol */
-const STORE_KEY = Symbol("store provider key");
+const STORE_KEY = Symbol() as InjectionKey<string>;
 
-type Key = string | symbol;
-type Value = string | object | number;
-
-interface SetterData {
-  key: Key;
-  value: Value;
+interface ProvidedValueInteface<T> {
+  context: [UnwrapNestedRefs<T>, ({ key, value }: Required<{ key: string; value: any }>) => void];
 }
 
-export type Context =
-  | [ComputedRef<{ [key: Key]: any }>, (data: Required<SetterData>) => void]
-  | undefined;
+export function useReactiveProvider<T extends object>(initialObject = <T>{}) {
+  const providedValue = reactive(initialObject);
 
-export function useReactiveProvider(initialObject: object = {}) {
-  const providedValue: { [key: Key]: any } = reactive(initialObject);
-
-  const setProvidedValue = ({ key, value }: Required<SetterData>) => {
-    providedValue[key] = value;
+  const setProvidedValue = ({ key, value }: Required<{ key: string; value: any }>) => {
+    if (providedValue) {
+      (providedValue as any)[key] = value;
+    }
   };
 
-  provide(STORE_KEY, <Context>[providedValue, setProvidedValue]);
+  provide<ProvidedValueInteface<T>["context"]>(STORE_KEY, [providedValue, setProvidedValue]);
 }
 
-export function useReactiveContext() {
-  const providedValueContext: Context = inject(STORE_KEY);
+export function useReactiveContext<T>() {
+  const providedValueContext = inject<ProvidedValueInteface<T>["context"]>(STORE_KEY);
 
   if (!providedValueContext) {
     throw new Error("useContext requires useReactiveProvider in parent");

@@ -15,11 +15,12 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import { useReactiveContext } from "@/composables/useContext";
+import type { MainData, Contact } from "@/types/MainDataTypes.interface";
 
-const [store, setStore] = useReactiveContext();
+const [store, setStore] = useReactiveContext<MainData>();
 const router = useRouter();
 
-const handleContactClick = ({ first_name = "", last_name = "", email = "" } = {}) => {
+const handleContactClick = ({ first_name, last_name, email } = <Contact>{}) => {
   setStore({ key: "firstName", value: first_name });
   setStore({ key: "lastName", value: last_name });
   setStore({ key: "email", value: email });
