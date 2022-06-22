@@ -20,10 +20,10 @@ import type { MainData, Contact } from "@/types/MainDataTypes.interface";
 const [store, setStore] = useReactiveContext<MainData>();
 const router = useRouter();
 
-const handleContactClick = ({ first_name, last_name, email } = <Contact>{}) => {
-  setStore({ key: "firstName", value: first_name });
-  setStore({ key: "lastName", value: last_name });
-  setStore({ key: "email", value: email });
+const handleContactClick = (data: Contact) => {
+  setStore({ key: "firstName", value: data.first_name });
+  setStore({ key: "lastName", value: data.last_name });
+  setStore({ key: "email", value: data.email });
 
   router.push({ name: "Main" });
 };

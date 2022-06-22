@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { provide, inject, reactive } from "vue";
 import type { UnwrapNestedRefs, InjectionKey } from "vue";
 
@@ -5,6 +6,7 @@ import type { UnwrapNestedRefs, InjectionKey } from "vue";
 const STORE_KEY = Symbol() as InjectionKey<string>;
 
 interface ProvidedValueInteface<T> {
+  // eslint-disable-next-line no-unused-vars
   context: [UnwrapNestedRefs<T>, ({ key, value }: Required<{ key: string; value: any }>) => void];
 }
 
