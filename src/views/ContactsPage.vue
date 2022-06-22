@@ -17,7 +17,7 @@ import { useRouter } from "vue-router";
 import { useReactiveContext } from "@/composables/useContext";
 import type { MainData, Contact } from "@/types/MainDataTypes.interface";
 
-const [store, setStore] = useReactiveContext<MainData>();
+const { store, setStore } = useReactiveContext<MainData>();
 const router = useRouter();
 
 const handleContactClick = (data: Contact) => {

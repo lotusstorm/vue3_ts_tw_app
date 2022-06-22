@@ -49,7 +49,7 @@ const LOCAL_STORAGE_KEY = "store";
 
 const { setDataToLocalStoreg, getDataFromLocalStoreg } = useLocalStoreg(LOCAL_STORAGE_KEY);
 
-const [store, setStore] = useReactiveContext<MainData>();
+const { store, setStore } = useReactiveContext<MainData>();
 
 const router = useRouter();
 

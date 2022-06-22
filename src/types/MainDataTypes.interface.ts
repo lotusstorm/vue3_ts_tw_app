@@ -17,3 +17,6 @@ export interface localStorageData {
   lastName: string;
   userEmail: string;
 }
+
+export type ValueType = string | number | object | null;
+export type SetterDataType = Required<{ key: string; value: ValueType }>;
